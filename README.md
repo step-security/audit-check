@@ -28,8 +28,8 @@ jobs:
   security_audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: step-security/audit-check@v2.0.0
+      - uses: actions/checkout@v7
+      - uses: step-security/audit-check@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -88,8 +88,8 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: step-security/audit-check@v2.0.0
+      - uses: actions/checkout@v7
+      - uses: step-security/audit-check@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 ```

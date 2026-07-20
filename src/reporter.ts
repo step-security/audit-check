@@ -4,7 +4,7 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import * as nunjucks from 'nunjucks';
 
-import { checks } from '@clechasseur/rs-actions-core';
+import { CheckReporter } from './rs-actions-core';
 import * as interfaces from './interfaces';
 import * as templates from './templates';
 
@@ -166,8 +166,8 @@ export async function reportCheck(
     vulnerabilities: Array<interfaces.Vulnerability>,
     warnings: Array<interfaces.Warning>,
 ): Promise<void> {
-    const client = github.getOctokit(token, {userAgent: USER_AGENT});
-    const reporter = new checks.CheckReporter(client.rest, 'Security audit');
+    const client = github.getOctokit(token, { userAgent: USER_AGENT });
+    const reporter = new CheckReporter(client.rest, 'Security audit');
     const stats = getStats(vulnerabilities, warnings);
     const summary = getSummary(stats);
 
@@ -179,7 +179,9 @@ export async function reportCheck(
         // `GITHUB_HEAD_REF` is set only for forked repos,
         // so we can check if it is a fork and not a base repo.
         if (process.env.GITHUB_HEAD_REF) {
-            core.error(`Unable to publish audit check! Reason: ${error}`);
+            core.error(
+                `Unable to publish audit check! Reason: ${(error as Error).message}`,
+            );
             core.warning(
                 'It seems that this Action is executed from the forked repository.',
             );
@@ -235,10 +237,10 @@ async function alreadyReported(
     advisoryId: string,
 ): Promise<boolean> {
     const { owner, repo } = github.context.repo;
-    const client = github.getOctokit(token, {userAgent: USER_AGENT});
+    const client = github.getOctokit(token, { userAgent: USER_AGENT });
     const results = await client.rest.search.issuesAndPullRequests({
         q: `${advisoryId} in:title repo:${owner}/${repo}`,
-        per_page: 1, // eslint-disable-line @typescript-eslint/camelcase
+        per_page: 1,
     });
 
     if (results.data.total_count > 0) {
@@ -259,7 +261,7 @@ export async function reportIssues(
 ): Promise<void> {
     const { owner, repo } = github.context.repo;
 
-    const client = github.getOctokit(token, {userAgent: USER_AGENT});
+    const client = github.getOctokit(token, { userAgent: USER_AGENT });
 
     for (const vulnerability of vulnerabilities) {
         const reported = await alreadyReported(

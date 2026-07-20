@@ -2,7 +2,7 @@
  * Parse action input into a some proper thing.
  */
 
-import { input } from '@clechasseur/rs-actions-core';
+import { input } from './rs-actions-core';
 
 // Parsed action input
 export interface Input {
@@ -15,6 +15,7 @@ export function get(): Input {
     return {
         token: input.getInput('token', { required: true }),
         ignore: input.getInputList('ignore', { required: false }),
-        workingDirectory: input.getInput('working-directory', { required: false }) ?? '.',
+        workingDirectory:
+            input.getInput('working-directory', { required: false }) ?? '.',
     };
 }

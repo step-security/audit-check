@@ -4,8 +4,8 @@
         "checkJs": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "newLine": "LF",
         "noEmitOnError": true,
         "noErrorTruncation": true,
@@ -23,7 +23,7 @@
         "rootDir": "src",
         "strict": true,
         "suppressImplicitAnyIndexErrors": false,
-        "target": "es2018"
+        "target": "es2022"
     },
     "include": [
         "src"
