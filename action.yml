@@ -1,0 +1,21 @@
+name: 'rust-audit-check'
+description: 'Run cargo audit and check for security advisories'
+author: 'actions-rs team'
+branding:
+  icon: play-circle
+  color: black
+inputs:
+  token:
+    description: GitHub Actions token
+    required: true
+  ignore:
+    description: Comma-separated list of advisory ids to ignore
+    required: false
+  working-directory:
+    description: The directory of the Cargo.toml / Cargo.lock files to scan.
+    required: false
+    default: .
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
